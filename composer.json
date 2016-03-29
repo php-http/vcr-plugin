@@ -1,0 +1,41 @@
+{
+    "name": "php-http/vcr-plugin",
+    "description": "Record your test suite's HTTP interactions and replay them during future test runs.",
+    "license": "MIT",
+    "keywords": ["http", "vcr", "plugin", "psr7"],
+    "homepage": "http://httplug.io",
+    "authors": [
+        {
+            "name": "Jérôme Gamez",
+            "email": "jerome@gamez.name"
+        }
+    ],
+    "require-dev": {
+        "php": "^5.6|^7.0",
+        "php-http/plugins": "^1.0",
+        "phpunit/phpunit": "^5.2",
+        "guzzlehttp/psr7": "^1.2",
+        "mikey179/vfsStream": "^1.6"
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Http\\Client\\Plugin\\Vcr\\": "src"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "test-ci": "vendor/bin/phpunit --coverage-text --coverage-clover=build/coverage.xml"
+    },
+    "config": {
+        "platform": {
+            "php": "5.6"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        }
+    },
+    "prefer-stable": true,
+    "minimum-stability": "dev"
+}
