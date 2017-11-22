@@ -61,7 +61,7 @@ class Vcr
     /**
      * Starts recording.
      *
-     * @throws InvalidState if no tape has been inserted.
+     * @throws InvalidState if no tape has been inserted
      */
     public function startRecording()
     {
@@ -126,7 +126,7 @@ class Vcr
      *
      * @param Tape|string $tape
      *
-     * @throws InvalidState If the tape could not be inserted.
+     * @throws InvalidState if the tape could not be inserted
      */
     public function insert($tape)
     {

@@ -6,7 +6,7 @@ use Http\Client\Plugin\Vcr\Exception\NotFound;
 use Http\Client\Plugin\Vcr\VcrTestCase;
 
 /**
- * @covers Http\Client\Plugin\Vcr\Storage\InMemoryStorage
+ * @covers \Http\Client\Plugin\Vcr\Storage\InMemoryStorage
  */
 class InMemoryStorageTest extends VcrTestCase
 {

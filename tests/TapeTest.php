@@ -6,7 +6,7 @@ use GuzzleHttp\Psr7\Request;
 use Http\Client\Plugin\Vcr\Exception\NotFound;
 
 /**
- * @covers Http\Client\Plugin\Vcr\Tape
+ * @covers \Http\Client\Plugin\Vcr\Tape
  */
 class TapeTest extends VcrTestCase
 {

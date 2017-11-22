@@ -6,7 +6,7 @@ use Http\Client\Plugin\Vcr\Exception\InvalidState;
 use Http\Client\Plugin\Vcr\Exception\NotFound;
 
 /**
- * @covers Http\Client\Plugin\Vcr\Vcr
+ * @covers \Http\Client\Plugin\Vcr\Vcr
  */
 class VcrTest extends VcrTestCase
 {
