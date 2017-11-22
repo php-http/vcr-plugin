@@ -7,5 +7,4 @@ use Http\Client\HttpClient;
 
 interface ClientImplementation extends HttpClient, HttpAsyncClient
 {
-
 }

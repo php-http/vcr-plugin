@@ -18,7 +18,7 @@ interface Storage
      *
      * @param string $name
      *
-     * @throws NotFound If the requested tape has not been found.
+     * @throws NotFound if the requested tape has not been found
      *
      * @return Tape
      */

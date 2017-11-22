@@ -7,7 +7,7 @@ use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
 /**
- * @covers Http\Client\Plugin\Vcr\VcrClient
+ * @covers \Http\Client\Plugin\Vcr\VcrClient
  */
 class VcrClientTest extends VcrTestCase
 {

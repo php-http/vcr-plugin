@@ -7,7 +7,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
 
 /**
- * @covers Http\Client\Plugin\Vcr\Track
+ * @covers \Http\Client\Plugin\Vcr\Track
  */
 class TrackTest extends VcrTestCase
 {

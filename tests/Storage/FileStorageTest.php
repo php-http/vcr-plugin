@@ -10,7 +10,7 @@ use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamDirectory;
 
 /**
- * @covers Http\Client\Plugin\Vcr\Storage\FileStorage
+ * @covers \Http\Client\Plugin\Vcr\Storage\FileStorage
  */
 class FileStorageTest extends VcrTestCase
 {
