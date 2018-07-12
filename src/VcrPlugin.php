@@ -2,7 +2,7 @@
 
 namespace Http\Client\Plugin\Vcr;
 
-use Http\Client\Plugin\Plugin;
+use Http\Client\Common\Plugin;
 use Http\Client\Plugin\Vcr\Exception\CannotBeReplayed;
 use Http\Client\Plugin\Vcr\Exception\NotFound;
 use Http\Promise\FulfilledPromise;
