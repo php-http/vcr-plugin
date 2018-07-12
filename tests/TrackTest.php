@@ -33,8 +33,8 @@ class TrackTest extends VcrTestCase
 
     protected function setUp()
     {
-        $this->request = $this->getMockBuilder(RequestInterface::class)->getMock();
-        $this->response = $this->getMockBuilder(ResponseInterface::class)->getMock();
+        $this->request = $this->createMock(RequestInterface::class);
+        $this->response = $this->createMock(ResponseInterface::class);
         $this->exception = new \Exception();
 
         $this->track = Track::create($this->request);
@@ -69,7 +69,7 @@ class TrackTest extends VcrTestCase
 
     public function testResponseBodyIsRewound()
     {
-        $body = $this->getMockBuilder(StreamInterface::class)->getMock();
+        $body = $this->createMock(StreamInterface::class);
         $this->response->expects($this->once())->method('getBody')->willReturn($body);
 
         $this->track->setResponse($this->response);

@@ -41,7 +41,7 @@ class VcrPluginTest extends VcrTestCase
 
     protected function setUp()
     {
-        $this->request = $this->getMockBuilder(RequestInterface::class)->getMock();
+        $this->request = $this->createMock(RequestInterface::class);
 
         $this->track = $this->getMockBuilder(Track::class)->disableOriginalConstructor()->getMock();
         $this->track
@@ -103,7 +103,7 @@ class VcrPluginTest extends VcrTestCase
 
         $promise = $this->plugin->handleRequest(
             $this->request,
-            $this->fulfilledPromise($this->getMockBuilder(ResponseInterface::class)->getMock()),
+            $this->fulfilledPromise($this->createMock(ResponseInterface::class)),
             $this->rejectedPromise($exception)
         );
 
