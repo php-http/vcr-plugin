@@ -13,7 +13,9 @@ use Psr\Http\Message\ResponseInterface;
 class VcrPlugin implements Plugin
 {
     const HEADER_VCR = 'X-VCR';
+
     const HEADER_VCR_REPLAY = 'replay';
+
     const HEADER_VCR_RECORDED = 'recorded';
 
     /**
