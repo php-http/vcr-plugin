@@ -29,14 +29,14 @@ class VcrClientTest extends VcrTestCase
     protected function setUp()
     {
         $this->vcr = $this->getMockBuilder(Vcr::class)->getMock();
-        $this->client = $this->getMock(ClientImplementation::class);
+        $this->client = $this->getMockBuilder(ClientImplementation::class)->getMock();
         $this->vcrClient = new VcrClient($this->client, $this->vcr);
     }
 
     public function testSendRequest()
     {
-        $request = $this->getMock(RequestInterface::class);
-        $response = $this->getMock(ResponseInterface::class);
+        $request = $this->getMockBuilder(RequestInterface::class)->getMock();
+        $response = $this->getMockBuilder(ResponseInterface::class)->getMock();
 
         $this->client->expects($this->once())->method('sendRequest')->with($request)->willReturn($response);
 
@@ -45,8 +45,8 @@ class VcrClientTest extends VcrTestCase
 
     public function testSendAsyncRequest()
     {
-        $request = $this->getMock(RequestInterface::class);
-        $response = $this->getMock(ResponseInterface::class);
+        $request = $this->getMockBuilder(RequestInterface::class)->getMock();
+        $response = $this->getMockBuilder(ResponseInterface::class)->getMock();
         $fulfilledPromise = new FulfilledPromise($response);
 
         $this->client->expects($this->once())->method('sendAsyncRequest')->with($request)->willReturn($fulfilledPromise);

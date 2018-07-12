@@ -27,7 +27,7 @@ class VcrTest extends VcrTestCase
 
     protected function setUp()
     {
-        $this->storage = $this->getMock(Storage::class);
+        $this->storage = $this->getMockBuilder(Storage::class)->getMock();
         $this->tape = $this->getMockBuilder(Tape::class)->disableOriginalConstructor()->getMock();
 
         $this->vcr = Vcr::createWithStorage($this->storage);
