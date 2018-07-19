@@ -2,7 +2,7 @@
 
 namespace Http\Client\Plugin\Vcr;
 
-use Http\Client\Plugin\Plugin;
+use Http\Client\Common\Plugin;
 use Http\Client\Plugin\Vcr\Exception\CannotBeReplayed;
 use Http\Client\Plugin\Vcr\Exception\NotFound;
 use Http\Promise\FulfilledPromise;
@@ -13,7 +13,9 @@ use Psr\Http\Message\ResponseInterface;
 class VcrPlugin implements Plugin
 {
     const HEADER_VCR = 'X-VCR';
+
     const HEADER_VCR_REPLAY = 'replay';
+
     const HEADER_VCR_RECORDED = 'recorded';
 
     /**
