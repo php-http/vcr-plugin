@@ -8,30 +8,36 @@
         {
             "name": "Jérôme Gamez",
             "email": "jerome@gamez.name"
+        },{
+            "name": "Gary PEGEOT",
+            "email": "garypegeot@gmail.com"
         }
     ],
     "require": {
-        "php": "^5.6|^7.0",
-        "php-http/plugins": "^1.0",
-        "guzzlehttp/psr7": "^1.2"
+        "php": "^7.1",
+        "guzzlehttp/psr7": "^1.4",
+        "php-http/client-common": "^2.0",
+        "psr/log": "^1.0",
+        "symfony/filesystem": "^3.4|^4.0",
+        "symfony/options-resolver": "^3.4|^4.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "^5.2",
-        "mikey179/vfsStream": "^1.6"
+        "symfony/phpunit-bridge": "*",
+        "friendsofphp/php-cs-fixer": "^2.14"
     },
     "autoload": {
         "psr-4": {
             "Http\\Client\\Plugin\\Vcr\\": "src"
         }
     },
-    "scripts": {
-        "test": "vendor/bin/phpunit",
-        "test-ci": "vendor/bin/phpunit --coverage-text --coverage-clover=build/coverage.xml"
-    },
-    "config": {
-        "platform": {
-            "php": "5.6"
+    "autoload-dev": {
+        "psr-4": {
+            "Http\\Client\\Plugin\\Vcr\\Tests\\": "tests"
         }
+    },
+    "scripts": {
+        "test": "vendor/bin/simple-phpunit",
+        "test-ci": "vendor/bin/simple-phpunit --coverage-text --coverage-clover=build/coverage.xml"
     },
     "extra": {
         "branch-alias": {
