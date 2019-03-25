@@ -6,9 +6,6 @@
     "homepage": "http://httplug.io",
     "authors": [
         {
-            "name": "Jérôme Gamez",
-            "email": "jerome@gamez.name"
-        },{
             "name": "Gary PEGEOT",
             "email": "garypegeot@gmail.com"
         }
@@ -22,7 +19,7 @@
         "symfony/options-resolver": "^3.4|^4.0"
     },
     "require-dev": {
-        "symfony/phpunit-bridge": "*",
+        "symfony/phpunit-bridge": ">= 4.2",
         "friendsofphp/php-cs-fixer": "^2.14"
     },
     "autoload": {
