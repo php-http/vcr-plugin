@@ -9,7 +9,7 @@ use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Will use the request path as filename.
+ * Will use the request attributes (hostname, path, headers & body) as filename.
  *
  * @author Gary PEGEOT <garypegeot@gmail.com>
  */
@@ -20,6 +20,11 @@ class PathNamingStrategy implements NamingStrategyInterface
      */
     private $options;
 
+    /**
+     * @param array $options available options:
+     *                       - hash_headers:      the list of header names to hash,
+     *                       - hash_body_methods: Methods for which the body will be hashed (Default: PUT, POST, PATCH)
+     */
     public function __construct(array $options = [])
     {
         $resolver = new OptionsResolver();
@@ -29,27 +34,16 @@ class PathNamingStrategy implements NamingStrategyInterface
 
     public function name(RequestInterface $request): string
     {
-        $parts = [$this->options['name_prefix']];
+        $parts = [$request->getUri()->getHost()];
 
-        if ($this->options['hostname_prefix']) {
-            $parts[] = $request->getUri()->getHost();
-        }
         $method = strtoupper($request->getMethod());
 
         $parts[] = $method;
-        $parts[] = str_replace(\DIRECTORY_SEPARATOR, '_', trim($request->getUri()->getPath(), '/'));
+        $parts[] = str_replace('/', '_', trim($request->getUri()->getPath(), '/'));
+        $parts[] = $this->getHeaderHash($request);
 
         if ($query = $request->getUri()->getQuery()) {
             $parts[] = $this->hash($query);
-        }
-
-        if ($this->options['use_headers']) {
-            $headers = '';
-            foreach ($request->getHeaders() as $header => $values) {
-                $headers .= "$header:".implode(',', $values);
-            }
-
-            $parts[] = $this->hash($headers);
         }
 
         if (\in_array($method, $this->options['hash_body_methods'], true)) {
@@ -59,27 +53,38 @@ class PathNamingStrategy implements NamingStrategyInterface
         return implode('_', array_filter($parts));
     }
 
-    public function configureOptions(OptionsResolver $resolver): void
+    private function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'hostname_prefix' => false,
-            'name_prefix' => '',
-            'use_headers' => false,
+            'hash_headers' => [],
             'hash_body_methods' => ['PUT', 'POST', 'PATCH'],
         ]);
 
-        $resolver->setAllowedTypes('hostname_prefix', 'bool');
-        $resolver->setAllowedTypes('name_prefix', ['null', 'string']);
-        $resolver->setAllowedTypes('use_headers', 'bool');
+        $resolver->setAllowedTypes('hash_headers', 'string[]');
         $resolver->setAllowedTypes('hash_body_methods', 'string[]');
 
-        $resolver->setNormalizer('hash_body_methods', function (Options $options, $value) {
+        $normalizer = function (Options $options, $value) {
             return \is_array($value) ? array_map('strtoupper', $value) : $value;
-        });
+        };
+        $resolver->setNormalizer('hash_headers', $normalizer);
+        $resolver->setNormalizer('hash_body_methods', $normalizer);
     }
 
     private function hash(string $value): string
     {
         return substr(sha1($value), 0, 5);
+    }
+
+    private function getHeaderHash(RequestInterface $request): ?string
+    {
+        $headers = [];
+
+        foreach ($this->options['hash_headers'] as $name) {
+            if ($request->hasHeader($name)) {
+                $headers[] = "$name:".implode(',', $request->getHeader($name));
+            }
+        }
+
+        return empty($headers) ? null : $this->hash(implode(';', $headers));
     }
 }

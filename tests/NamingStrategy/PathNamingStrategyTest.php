@@ -8,7 +8,6 @@ use GuzzleHttp\Psr7\Request;
 use Http\Client\Plugin\Vcr\NamingStrategy\PathNamingStrategy;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\RequestInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * @internal
@@ -25,22 +24,6 @@ class PathNamingStrategyTest extends TestCase
         $this->assertSame($expected, $strategy->name($request));
     }
 
-    public function testConfigureOptions(): void
-    {
-        $resolver = new OptionsResolver();
-
-        $expected = [
-            'hostname_prefix' => false,
-            'name_prefix' => '',
-            'use_headers' => false,
-            'hash_body_methods' => ['PUT'],
-        ];
-
-        (new PathNamingStrategy())->configureOptions($resolver);
-
-        $this->assertSame($expected, $resolver->resolve(['hash_body_methods' => ['put']]));
-    }
-
     public function provideRequests(): \Generator
     {
         yield 'Simple GET request' => ['GET_my-path_my-sub-path', $this->getRequest('/my-path/my-sub-path')];
@@ -52,19 +35,22 @@ class PathNamingStrategyTest extends TestCase
         yield 'GET request with hostname' => [
             'example.org_GET_my-path',
             $this->getRequest('https://example.org/my-path'),
-            ['hostname_prefix' => true],
         ];
 
-        yield 'Custom prefix' => ['foo_GET_my-path', $this->getRequest('/my-path'), ['name_prefix' => 'foo']];
-
-        yield 'Header hash' => ['GET_my-path_76a1f', $this->getRequest('/my-path'), ['use_headers' => true]];
+        yield 'Header hash' => ['GET_my-path_4727a', $this->getRequest('/my-path'), ['hash_headers' => ['X-Foo']]];
 
         yield 'Body hash' => ['POST_my-action_d3b09', $this->getRequest('/my-action', 'POST', '{"hello": "world"}')];
 
+        yield 'Method excluded' => [
+            'POST_my-action',
+            $this->getRequest('/my-action', 'POST', '{"hello": "world"}'),
+            ['hash_body_methods' => []],
+        ];
+
         yield 'Full package' => [
-            'POST_my-action_1a3b6_76a1f_d3b09',
+            'POST_my-action_4727a_1a3b6_d3b09',
             $this->getRequest('/my-action?page=1', 'POST', '{"hello": "world"}'),
-            ['use_headers' => true],
+            ['hash_headers' => ['X-Foo']],
         ];
     }
 
