@@ -7,7 +7,7 @@ namespace Http\Client\Plugin\Vcr\NamingStrategy;
 use Psr\Http\Message\RequestInterface;
 
 /**
- * In charge of giving a deterministic name to a request.
+ * Provides a deterministic and unique identifier for a request. The identifier must be safe to use with a filesystem.
  *
  * @author Gary PEGEOT <garypegeot@gmail.com>
  */
