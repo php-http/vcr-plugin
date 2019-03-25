@@ -6,6 +6,7 @@ namespace Http\Client\Plugin\Vcr\Tests\Recorder;
 
 use GuzzleHttp\Psr7\Response;
 use Http\Client\Plugin\Vcr\Recorder\FilesystemRecorder;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Filesystem\Tests\FilesystemTestCase;
 
@@ -28,7 +29,7 @@ class FilesystemRecorderTest extends FilesystemTestCase
 
     public function testReplay(): void
     {
-        /** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject $logger */
+        /** @var LoggerInterface|MockObject $logger */
         $logger = $this->createMock(LoggerInterface::class);
 
         $logger->expects($this->once())
@@ -45,8 +46,9 @@ class FilesystemRecorderTest extends FilesystemTestCase
         $original = new Response(200, ['X-Foo' => 'Bar'], 'The content');
 
         $this->recorder->record('my_awesome_response', $original);
+        $this->assertFileExists(sprintf('%s%smy_awesome_response.txt', $this->workspace, \DIRECTORY_SEPARATOR));
 
-        $replayed = $this->recorder->replay('my_awesome_response');
+        $replayed = (new FilesystemRecorder($this->workspace))->replay('my_awesome_response');
 
         $this->assertNotNull($replayed, 'Response should not be null');
 
