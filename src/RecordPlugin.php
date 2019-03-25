@@ -39,7 +39,7 @@ final class RecordPlugin implements Plugin
         $name = $this->namingStrategy->name($request);
 
         return $next($request)->then(function (ResponseInterface $response) use ($name) {
-            if ($response->getStatusCode() < 300 && !$response->hasHeader(ReplayPlugin::HEADER_NAME)) {
+            if (!$response->hasHeader(ReplayPlugin::HEADER_NAME)) {
                 $this->recorder->record($name, $response);
                 $response = $response->withAddedHeader(static::HEADER_NAME, $name);
             }
