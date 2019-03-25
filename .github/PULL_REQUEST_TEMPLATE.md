@@ -5,12 +5,13 @@
 | BC breaks?      | no|yes
 | Deprecations?   | no|yes
 | Related tickets | fixes #X, partially #Y, mentioned in #Z
+| Documentation   | if this is a new feature, link to pull request in https://github.com/php-http/documentation that adds relevant documentation
 | License         | MIT
 
 
 #### What's in this PR?
 
-Explain the contents of the PR.
+Explain what the changes in this PR do.
 
 
 #### Why?
@@ -31,11 +32,12 @@ $foo->doSomething();
 ```
 
 
-#### BC Breaks/Deprecations
+#### Checklist
 
-Describe BC breaks/deprecations here. (remove this section if not needed)
+- [ ] Updated CHANGELOG.md to describe BC breaks / deprecations | new feature | bugfix
+- [ ] Documentation pull request created (if not simply a bugfix)
 
 
 #### To Do
 
-- [ ] Add tests
+- [ ] If the PR is not complete but you want to discuss the approach, list what remains to be done here

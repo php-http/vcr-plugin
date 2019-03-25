@@ -1,4 +1,8 @@
-/build
-/vendor
+/.php_cs
+/.php_cs.cache
+/behat.yml
+/build/
 /composer.lock
+/phpspec.yml
 /phpunit.xml
+/vendor/
