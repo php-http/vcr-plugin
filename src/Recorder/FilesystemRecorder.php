@@ -12,7 +12,8 @@ use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
 
 /**
- * Stores responses in a defined directory, preferably accessible to your VCS.
+ * Stores responses using the `guzzlehttp/psr7` library to serialize and deserialize the response.
+ * Target directory should be part of your VCS.
  *
  * @author Gary PEGEOT <garypegeot@gmail.com>
  */
