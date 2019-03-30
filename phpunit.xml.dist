@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/5.2/phpunit.xsd"
-        bootstrap="tests/bootstrap.php"
-        forceCoversAnnotation="true"
+        xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/6.5/phpunit.xsd"
+        bootstrap="vendor/autoload.php"
         colors="true">
     <testsuites>
         <testsuite name="VCR Plugin Test Suite">
@@ -13,7 +12,7 @@
 
     <filter>
         <whitelist>
-            <directory suffix=".php">.</directory>
+            <directory suffix=".php">src</directory>
             <exclude>
                 <directory>./tests</directory>
                 <directory>./vendor</directory>
