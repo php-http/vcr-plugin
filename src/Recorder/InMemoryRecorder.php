@@ -31,8 +31,6 @@ final class InMemoryRecorder implements PlayerInterface, RecorderInterface
     /**
      * @param string            $name
      * @param ResponseInterface $response
-     *
-     * @return void
      */
     public function record(string $name, ResponseInterface $response)
     {
