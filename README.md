@@ -23,6 +23,23 @@ $ composer require --dev php-http/vcr-plugin
 
 ## Usage
 
+```php
+<?php
+
+use Http\Client\Plugin\Vcr\NamingStrategy\PathNamingStrategy;
+use Http\Client\Plugin\Vcr\Recorder\FilesystemRecorder;
+use Http\Client\Plugin\Vcr\RecordPlugin;
+use Http\Client\Plugin\Vcr\ReplayPlugin;
+
+$namingStrategy = new PathNamingStrategy();
+$recorder = new FilesystemRecorder('some/dir/in/vcs'); // You can use InMemoryRecorder as well
+
+// To record responses:
+$record = new RecordPlugin($namingStrategy, $recorder);
+
+// To replay responses:
+$replay = new ReplayPlugin($namingStrategy, $recorder);
+```
 
 ## Testing
 
