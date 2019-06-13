@@ -13,5 +13,11 @@ use Psr\Http\Message\ResponseInterface;
  */
 interface RecorderInterface
 {
-    public function record(string $name, ResponseInterface $response): void;
+    /**
+     * @param string            $name
+     * @param ResponseInterface $response
+     *
+     * @return void
+     */
+    public function record(string $name, ResponseInterface $response);
 }

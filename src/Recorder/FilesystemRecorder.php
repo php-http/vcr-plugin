@@ -31,7 +31,7 @@ final class FilesystemRecorder implements RecorderInterface, PlayerInterface, Lo
      */
     private $filesystem;
 
-    public function __construct(string $directory, ?Filesystem $filesystem = null)
+    public function __construct(string $directory, Filesystem $filesystem = null)
     {
         $this->filesystem = $filesystem ?? new Filesystem();
 
@@ -46,7 +46,12 @@ final class FilesystemRecorder implements RecorderInterface, PlayerInterface, Lo
         $this->directory = realpath($directory).\DIRECTORY_SEPARATOR;
     }
 
-    public function replay(string $name): ?ResponseInterface
+    /**
+     * @param string $name
+     *
+     * @return ResponseInterface|null
+     */
+    public function replay(string $name)
     {
         $filename = "{$this->directory}$name.txt";
         $context = compact('filename');
@@ -62,7 +67,13 @@ final class FilesystemRecorder implements RecorderInterface, PlayerInterface, Lo
         return Psr7\parse_response(file_get_contents($filename));
     }
 
-    public function record(string $name, ResponseInterface $response): void
+    /**
+     * @param string            $name
+     * @param ResponseInterface $response
+     *
+     * @return void
+     */
+    public function record(string $name, ResponseInterface $response)
     {
         $filename = "{$this->directory}$name.txt";
         $context = compact('name', 'filename');
@@ -72,7 +83,7 @@ final class FilesystemRecorder implements RecorderInterface, PlayerInterface, Lo
         $this->log('Response for {name} stored into {filename}', $context);
     }
 
-    private function log(string $message, array $context = []): void
+    private function log(string $message, array $context = [])
     {
         if ($this->logger) {
             $this->logger->debug("[VCR-PLUGIN][FilesystemRecorder] $message", $context);

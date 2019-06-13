@@ -18,17 +18,28 @@ final class InMemoryRecorder implements PlayerInterface, RecorderInterface
      */
     private $responses = [];
 
-    public function replay(string $name): ?ResponseInterface
+    /**
+     * @param string $name
+     *
+     * @return ResponseInterface|null
+     */
+    public function replay(string $name)
     {
         return $this->responses[$name] ?? null;
     }
 
-    public function record(string $name, ResponseInterface $response): void
+    /**
+     * @param string            $name
+     * @param ResponseInterface $response
+     *
+     * @return void
+     */
+    public function record(string $name, ResponseInterface $response)
     {
         $this->responses[$name] = $response;
     }
 
-    public function clear(): void
+    public function clear()
     {
         $this->responses = [];
     }

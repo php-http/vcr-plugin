@@ -53,7 +53,7 @@ class PathNamingStrategy implements NamingStrategyInterface
         return implode('_', array_filter($parts));
     }
 
-    private function configureOptions(OptionsResolver $resolver): void
+    private function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
             'hash_headers' => [],
@@ -75,7 +75,7 @@ class PathNamingStrategy implements NamingStrategyInterface
         return substr(sha1($value), 0, 5);
     }
 
-    private function getHeaderHash(RequestInterface $request): ?string
+    private function getHeaderHash(RequestInterface $request)
     {
         $headers = [];
 

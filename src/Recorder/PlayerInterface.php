@@ -13,5 +13,10 @@ use Psr\Http\Message\ResponseInterface;
  */
 interface PlayerInterface
 {
-    public function replay(string $name): ?ResponseInterface;
+    /**
+     * @param string $name
+     *
+     * @return ResponseInterface|null
+     */
+    public function replay(string $name);
 }
