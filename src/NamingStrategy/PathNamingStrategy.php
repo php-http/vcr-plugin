@@ -60,8 +60,8 @@ class PathNamingStrategy implements NamingStrategyInterface
             'hash_body_methods' => ['PUT', 'POST', 'PATCH'],
         ]);
 
-        $resolver->setAllowedTypes('hash_headers', 'string[]');
-        $resolver->setAllowedTypes('hash_body_methods', 'string[]');
+        $resolver->setAllowedTypes('hash_headers', 'array');
+        $resolver->setAllowedTypes('hash_body_methods', 'array');
 
         $normalizer = function (Options $options, $value) {
             return \is_array($value) ? array_map('strtoupper', $value) : $value;
