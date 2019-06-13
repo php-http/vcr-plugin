@@ -11,16 +11,16 @@
         }
     ],
     "require": {
-        "php": "^7.1",
-        "guzzlehttp/psr7": "^1.4",
-        "php-http/client-common": "^2.0",
-        "psr/log": "^1.0",
-        "symfony/filesystem": "^3.4|^4.0",
-        "symfony/options-resolver": "^3.4|^4.0"
+        "php": "^7.0",
+        "php-http/client-common": "^1.9",
+        "guzzlehttp/psr7": "^1.5",
+        "psr/log": "^1.1",
+        "symfony/filesystem": "^3.4",
+        "symfony/options-resolver": "^3.4"
     },
     "require-dev": {
-        "symfony/phpunit-bridge": ">= 4.2",
-        "friendsofphp/php-cs-fixer": "^2.14"
+        "friendsofphp/php-cs-fixer": "^2.15",
+        "symfony/phpunit-bridge": "^4.3"
     },
     "autoload": {
         "psr-4": {
