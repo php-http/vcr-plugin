@@ -17,7 +17,7 @@ class PathNamingStrategyTest extends TestCase
     /**
      * @dataProvider provideRequests
      */
-    public function testName(string $expected, RequestInterface $request, array $options = []): void
+    public function testName(string $expected, RequestInterface $request, array $options = [])
     {
         $strategy = new PathNamingStrategy($options);
 
@@ -54,7 +54,7 @@ class PathNamingStrategyTest extends TestCase
         ];
     }
 
-    private function getRequest(string $uri, string $method = 'GET', ?string $body = null): RequestInterface
+    private function getRequest(string $uri, string $method = 'GET', string $body = null): RequestInterface
     {
         return new Request($method, $uri, ['X-Foo' => 'Bar'], $body);
     }

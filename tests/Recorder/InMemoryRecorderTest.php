@@ -18,12 +18,12 @@ class InMemoryRecorderTest extends TestCase
      */
     private $recorder;
 
-    protected function setUp(): void
+    protected function setUp()
     {
         $this->recorder = new InMemoryRecorder();
     }
 
-    public function testClear(): void
+    public function testClear()
     {
         $this->recorder->record('foo', new Response());
         $this->recorder->clear();
@@ -31,7 +31,7 @@ class InMemoryRecorderTest extends TestCase
         $this->assertNull($this->recorder->replay('foo'), 'Should not return a response');
     }
 
-    public function testReplay(): void
+    public function testReplay()
     {
         $response = new Response();
 

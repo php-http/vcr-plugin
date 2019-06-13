@@ -20,14 +20,14 @@ class FilesystemRecorderTest extends FilesystemTestCase
      */
     private $recorder;
 
-    protected function setUp(): void
+    protected function setUp()
     {
         parent::setUp();
 
         $this->recorder = new FilesystemRecorder($this->workspace, $this->filesystem);
     }
 
-    public function testReplay(): void
+    public function testReplay()
     {
         /** @var LoggerInterface|MockObject $logger */
         $logger = $this->createMock(LoggerInterface::class);
@@ -41,7 +41,7 @@ class FilesystemRecorderTest extends FilesystemTestCase
         $this->assertNull($this->recorder->replay('file_not_found'), 'No response should be returned');
     }
 
-    public function testRecord(): void
+    public function testRecord()
     {
         $original = new Response(200, ['X-Foo' => 'Bar'], 'The content');
 

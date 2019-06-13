@@ -28,7 +28,7 @@ abstract class AbstractPluginTestCase extends TestCase
      */
     protected $plugin;
 
-    protected function setUp(): void
+    protected function setUp()
     {
         $pluginClass = $this->getPluginClass();
         $this->namingStrategy = $this->createMock(NamingStrategyInterface::class);

@@ -15,7 +15,7 @@ use Psr\Http\Message\ResponseInterface;
  */
 class RecordPluginTest extends AbstractPluginTestCase
 {
-    public function testHandleRequest(): void
+    public function testHandleRequest()
     {
         $response = new Response();
         $this->namingStrategy->method('name')->willReturn('foo');
@@ -23,7 +23,7 @@ class RecordPluginTest extends AbstractPluginTestCase
             return new FulfilledPromise($response);
         };
 
-        $this->plugin->handleRequest($this->getRequest(), $next, $this->failCallback())->then(function (ResponseInterface $response): void {
+        $this->plugin->handleRequest($this->getRequest(), $next, $this->failCallback())->then(function (ResponseInterface $response) {
             $this->assertTrue($response->hasHeader(RecordPlugin::HEADER_NAME), 'A header should be added');
             $this->assertSame(['foo'], $response->getHeader(RecordPlugin::HEADER_NAME));
         });
