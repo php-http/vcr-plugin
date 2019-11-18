@@ -7,10 +7,6 @@
 [![Quality Score](https://img.shields.io/scrutinizer/g/php-http/vcr-plugin.svg?style=flat-square)](https://scrutinizer-ci.com/g/php-http/vcr-plugin)
 [![Total Downloads](https://img.shields.io/packagist/dt/php-http/vcr-plugin.svg?style=flat-square)](https://packagist.org/packages/php-http/vcr-plugin)
 
-## Work in Progress
-
-Please don't use/clone this repo yet, it will be force pushed for a clean first commit on initial release.
-
 **Record your test suite's HTTP interactions and replay them during future test runs.**
 
 ## Install
