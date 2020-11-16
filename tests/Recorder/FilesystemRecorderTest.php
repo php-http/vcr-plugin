@@ -6,39 +6,63 @@ namespace Http\Client\Plugin\Vcr\Tests\Recorder;
 
 use GuzzleHttp\Psr7\Response;
 use Http\Client\Plugin\Vcr\Recorder\FilesystemRecorder;
-use PHPUnit\Framework\MockObject\MockObject;
-use Psr\Log\LoggerInterface;
-use Symfony\Component\Filesystem\Tests\FilesystemTestCase;
+use PHPUnit\Framework\TestCase;
+use Psr\Log\Test\TestLogger;
+use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * @internal
  */
-class FilesystemRecorderTest extends FilesystemTestCase
+class FilesystemRecorderTest extends TestCase
 {
     /**
      * @var FilesystemRecorder
      */
     private $recorder;
 
+    /**
+     * @var int
+     */
+    private $umask;
+
+    /**
+     * @var Filesystem
+     */
+    private $filesystem;
+
+    /**
+     * @var string
+     */
+    private $workspace;
+
+    /**
+     * @var TestLogger
+     */
+    private $logger;
+
+    /**
+     * @see https://github.com/symfony/symfony/blob/5.x/src/Symfony/Component/Filesystem/Tests/FilesystemTestCase.php
+     */
     protected function setUp(): void
     {
-        parent::setUp();
+        $this->umask = umask(0);
+        $this->filesystem = new Filesystem();
+        $this->workspace = sys_get_temp_dir().'/'.microtime(true).'.'.mt_rand();
+        mkdir($this->workspace, 0777, true);
+        $this->workspace = realpath($this->workspace);
+        $this->logger = new TestLogger();
 
         $this->recorder = new FilesystemRecorder($this->workspace, $this->filesystem);
+        $this->recorder->setLogger($this->logger);
     }
 
     public function testReplay(): void
     {
-        /** @var LoggerInterface|MockObject $logger */
-        $logger = $this->createMock(LoggerInterface::class);
-
-        $logger->expects($this->once())
-            ->method('debug')
-            ->with('[VCR-PLUGIN][FilesystemRecorder] Unable to replay {filename}', ['filename' => "$this->workspace/file_not_found.txt"]);
-
-        $this->recorder->setLogger($logger);
-
         $this->assertNull($this->recorder->replay('file_not_found'), 'No response should be returned');
+        $this->assertTrue(
+            $this->logger->hasDebug('[VCR-PLUGIN][FilesystemRecorder] Unable to replay {filename}'),
+            'Cache miss should be logged'
+        );
     }
 
     public function testRecord(): void
@@ -55,5 +79,18 @@ class FilesystemRecorderTest extends FilesystemTestCase
         $this->assertSame($original->getStatusCode(), $replayed->getStatusCode());
         $this->assertSame($original->getHeaders(), $replayed->getHeaders());
         $this->assertSame((string) $original->getBody(), (string) $replayed->getBody());
+    }
+
+    protected function tearDown(): void
+    {
+        if (!empty($this->longPathNamesWindows)) {
+            foreach ($this->longPathNamesWindows as $path) {
+                exec('DEL '.$path);
+            }
+            $this->longPathNamesWindows = [];
+        }
+
+        $this->filesystem->remove($this->workspace);
+        umask($this->umask);
     }
 }
