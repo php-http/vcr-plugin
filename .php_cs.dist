@@ -12,12 +12,8 @@ $finder = PhpCsFixer\Finder::create()
 ;
 return PhpCsFixer\Config::create()
     ->setRules([
-        '@PSR2' => true,
         '@Symfony' => true,
-        'array_syntax' => [
-            'syntax' => 'short',
-        ],
-        'no_empty_phpdoc' => true,
-        'no_superfluous_phpdoc_tags' => true,
+        '@Symfony:risky' => true,
     ])
+    ->setRiskyAllowed(true)
     ->setFinder($finder);
