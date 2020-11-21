@@ -1,19 +1,17 @@
 <?php
 
-/*
- * Configuration for friendsofphp/php-cs-fixer
- *
- * @link https://github.com/FriendsOfPHP/PHP-CS-Fixer
- */
-
-$finder = PhpCsFixer\Finder::create()
-    ->in('src')
-    ->in('tests')
-;
-return PhpCsFixer\Config::create()
+$config = PhpCsFixer\Config::create()
+    ->setRiskyAllowed(true)
     ->setRules([
         '@Symfony' => true,
-        '@Symfony:risky' => true,
+        'array_syntax' => ['syntax' => 'short'],
     ])
-    ->setRiskyAllowed(true)
-    ->setFinder($finder);
+    ->setFinder(
+        PhpCsFixer\Finder::create()
+            ->in(__DIR__.'/src')
+            ->in(__DIR__.'/tests')
+            ->name('*.php')
+    )
+;
+
+return $config;
