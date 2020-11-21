@@ -116,5 +116,4 @@ class FilesystemRecorderTest extends TestCase
         $this->assertSame($expectedHeaders, $replayed->getHeaders());
         $this->assertSame('The big content', (string) $replayed->getBody());
     }
-
 }
