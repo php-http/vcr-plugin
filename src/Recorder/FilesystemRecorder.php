@@ -8,6 +8,7 @@ use GuzzleHttp\Psr7;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
+use Psr\Log\NullLogger;
 use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
 
@@ -32,10 +33,13 @@ final class FilesystemRecorder implements RecorderInterface, PlayerInterface, Lo
     private $filesystem;
 
     /**
-     * @var array
+     * @var array<string, string>
      */
     private $filters;
 
+    /**
+     * @param array<string, string> $filters
+     */
     public function __construct(string $directory, ?Filesystem $filesystem = null, array $filters = [])
     {
         $this->filesystem = $filesystem ?? new Filesystem();
@@ -50,6 +54,7 @@ final class FilesystemRecorder implements RecorderInterface, PlayerInterface, Lo
 
         $this->directory = realpath($directory).\DIRECTORY_SEPARATOR;
         $this->filters = $filters;
+        $this->logger = new NullLogger();
     }
 
     public function replay(string $name): ?ResponseInterface
@@ -65,7 +70,11 @@ final class FilesystemRecorder implements RecorderInterface, PlayerInterface, Lo
 
         $this->log('Response replayed from {filename}', $context);
 
-        return Psr7\parse_response(file_get_contents($filename));
+        if (false === $content = file_get_contents($filename)) {
+            throw new \RuntimeException(sprintf('Unable to read "%s" file content', $filename));
+        }
+
+        return Psr7\parse_response($content);
     }
 
     public function record(string $name, ResponseInterface $response): void
@@ -73,16 +82,20 @@ final class FilesystemRecorder implements RecorderInterface, PlayerInterface, Lo
         $filename = "{$this->directory}$name.txt";
         $context = compact('name', 'filename');
 
-        $content = preg_replace(array_keys($this->filters), array_values($this->filters), Psr7\str($response));
+        if (null === $content = preg_replace(array_keys($this->filters), array_values($this->filters), Psr7\str($response))) {
+            throw new \RuntimeException('Some of the provided response filters are invalid.');
+        }
+
         $this->filesystem->dumpFile($filename, $content);
 
         $this->log('Response for {name} stored into {filename}', $context);
     }
 
+    /**
+     * @param array<string, string> $context
+     */
     private function log(string $message, array $context = []): void
     {
-        if ($this->logger) {
-            $this->logger->debug("[VCR-PLUGIN][FilesystemRecorder] $message", $context);
-        }
+        $this->logger->debug("[VCR-PLUGIN][FilesystemRecorder] $message", $context);
     }
 }

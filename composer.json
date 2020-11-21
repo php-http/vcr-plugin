@@ -20,7 +20,8 @@
     },
     "require-dev": {
         "symfony/phpunit-bridge": "^4.2|^5.0",
-        "friendsofphp/php-cs-fixer": "^2.14"
+        "friendsofphp/php-cs-fixer": "^2.14",
+        "phpstan/phpstan": "^0.12.57"
     },
     "autoload": {
         "psr-4": {
@@ -34,7 +35,10 @@
     },
     "scripts": {
         "test": "vendor/bin/simple-phpunit",
-        "test-ci": "vendor/bin/simple-phpunit --coverage-text --coverage-clover=build/coverage.xml"
+        "test-ci": [
+            "vendor/bin/simple-phpunit --coverage-text --coverage-clover=build/coverage.xml",
+            "vendor/bin/phpstan analyse src -l 8"
+        ]
     },
     "extra": {
         "branch-alias": {
