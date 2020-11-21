@@ -93,4 +93,28 @@ class FilesystemRecorderTest extends TestCase
         $this->filesystem->remove($this->workspace);
         umask($this->umask);
     }
+
+    public function testRecordWithFilter(): void
+    {
+        $original = new Response(200, ['X-Foo' => 'Bar', 'X-Bar' => 'private-token-065a1bb33f000032ab'], 'The content');
+
+        $recorder = new FilesystemRecorder($this->workspace, $this->filesystem, [
+            '!private-token-[0-9a-z]+!' => 'private-token-xxxx',
+            '!The content!' => 'The big content',
+        ]);
+        $recorder->record('my_awesome_response', $original);
+
+        $this->assertFileExists(sprintf('%s%smy_awesome_response.txt', $this->workspace, \DIRECTORY_SEPARATOR));
+
+        $replayed = (new FilesystemRecorder($this->workspace))->replay('my_awesome_response');
+
+        $this->assertNotNull($replayed, 'Response should not be null');
+
+        $this->assertSame($original->getStatusCode(), $replayed->getStatusCode());
+        $expectedHeaders = $original->getHeaders();
+        $expectedHeaders['X-Bar'] = ['private-token-xxxx'];
+        $this->assertSame($expectedHeaders, $replayed->getHeaders());
+        $this->assertSame('The big content', (string) $replayed->getBody());
+    }
+
 }

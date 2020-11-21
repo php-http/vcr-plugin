@@ -31,7 +31,12 @@ final class FilesystemRecorder implements RecorderInterface, PlayerInterface, Lo
      */
     private $filesystem;
 
-    public function __construct(string $directory, ?Filesystem $filesystem = null)
+    /**
+     * @var array
+     */
+    private $filters;
+
+    public function __construct(string $directory, ?Filesystem $filesystem = null, array $filters = [])
     {
         $this->filesystem = $filesystem ?? new Filesystem();
 
@@ -44,6 +49,7 @@ final class FilesystemRecorder implements RecorderInterface, PlayerInterface, Lo
         }
 
         $this->directory = realpath($directory).\DIRECTORY_SEPARATOR;
+        $this->filters = $filters;
     }
 
     public function replay(string $name): ?ResponseInterface
@@ -67,7 +73,8 @@ final class FilesystemRecorder implements RecorderInterface, PlayerInterface, Lo
         $filename = "{$this->directory}$name.txt";
         $context = compact('name', 'filename');
 
-        $this->filesystem->dumpFile($filename, Psr7\str($response));
+        $content = preg_replace(array_keys($this->filters), array_values($this->filters), Psr7\str($response));
+        $this->filesystem->dumpFile($filename, $content);
 
         $this->log('Response for {name} stored into {filename}', $context);
     }
