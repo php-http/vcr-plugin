@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Http\Client\Plugin\Vcr\Recorder;
 
 use GuzzleHttp\Psr7;
-use http\Exception\InvalidArgumentException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
