@@ -16,14 +16,14 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class PathNamingStrategy implements NamingStrategyInterface
 {
     /**
-     * @var array
+     * @var array<string, string[]>
      */
     private $options;
 
     /**
-     * @param array $options available options:
-     *                       - hash_headers:      the list of header names to hash,
-     *                       - hash_body_methods: Methods for which the body will be hashed (Default: PUT, POST, PATCH)
+     * @param array<string, string[]> $options available options:
+     *                                         - hash_headers:      the list of header names to hash,
+     *                                         - hash_body_methods: Methods for which the body will be hashed (Default: PUT, POST, PATCH)
      */
     public function __construct(array $options = [])
     {
