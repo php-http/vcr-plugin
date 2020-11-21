@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Http\Client\Plugin\Vcr\Recorder;
 
-use GuzzleHttp\Psr7;
+use GuzzleHttp\Psr7\Message;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
@@ -74,7 +74,7 @@ final class FilesystemRecorder implements RecorderInterface, PlayerInterface, Lo
             throw new \RuntimeException(sprintf('Unable to read "%s" file content', $filename));
         }
 
-        return Psr7\parse_response($content);
+        return Message::parseResponse($content);
     }
 
     public function record(string $name, ResponseInterface $response): void
@@ -82,7 +82,7 @@ final class FilesystemRecorder implements RecorderInterface, PlayerInterface, Lo
         $filename = "{$this->directory}$name.txt";
         $context = compact('name', 'filename');
 
-        if (null === $content = preg_replace(array_keys($this->filters), array_values($this->filters), Psr7\str($response))) {
+        if (null === $content = preg_replace(array_keys($this->filters), array_values($this->filters), Message::toString($response))) {
             throw new \RuntimeException('Some of the provided response filters are invalid.');
         }
 
