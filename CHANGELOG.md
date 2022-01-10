@@ -1,5 +1,9 @@
 # Change Log
 
+## 1.3.0 -
+
+- Support Symfony 6
+
 ## 1.2.0 - 2020-11-30
 
 - Support PHP 8
