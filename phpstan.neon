@@ -1,0 +1,5 @@
+parameters:
+  ignoreErrors:
+    # The logger is initialized to NullLogger in the constructor of the FilesystemRecorder, but phpstan does not see that
+    - message: '#Cannot call method debug\(\) on Psr\\Log\\LoggerInterface\|null#'
+      path: src/Recorder/FilesystemRecorder.php

@@ -1,0 +1,74 @@
+name: tests
+
+on:
+    push:
+    pull_request:
+
+jobs:
+    latest:
+        name: PHP ${{ matrix.php }} Latest
+        runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                php: ['7.2', '7.3', '7.4', '8.0', '8.1']
+
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v2
+
+            - name: Setup PHP
+              uses: shivammathur/setup-php@v2
+              with:
+                  php-version: ${{ matrix.php }}
+                  coverage: none
+
+            - name: Install PHP dependencies
+              run: composer update --prefer-dist --no-interaction --no-progress
+
+            - name: Execute tests
+              run: composer test
+
+    lowest:
+        name: PHP ${{ matrix.php }} Lowest
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v2
+
+            - name: Setup PHP
+              uses: shivammathur/setup-php@v2
+              with:
+                  php-version: 7.2
+                  coverage: none
+
+            - name: Install dependencies
+              run: composer update --prefer-dist --prefer-stable --prefer-lowest --no-interaction --no-progress
+
+            - name: Execute tests
+              run: composer test
+
+    coverage:
+        name: Code coverage and static analysis
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v2
+
+            - name: Setup PHP
+              uses: shivammathur/setup-php@v2
+              with:
+                  php-version: 8.0
+                  coverage: xdebug
+
+            - name: Install dependencies
+              run: composer update --prefer-dist --no-interaction --no-progress
+
+            - name: Execute tests
+              run: composer test-ci
+
+            - name: Upload coverage
+              run: |
+                  wget https://scrutinizer-ci.com/ocular.phar
+                  php ocular.phar code-coverage:upload --format=php-clover build/coverage.xml
