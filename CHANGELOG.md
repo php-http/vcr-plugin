@@ -1,6 +1,6 @@
 # Change Log
 
-## 1.3.0 -
+## 1.2.1 - 2022-01-12
 
 - Support Symfony 6
 
