@@ -66,7 +66,7 @@ class TestLogger extends AbstractLogger
     /**
      * @inheritdoc
      */
-    public function log($level, $message, array $context = [])
+    public function log($level, $message, array $context = []): void
     {
         $record = [
             'level' => $level,
