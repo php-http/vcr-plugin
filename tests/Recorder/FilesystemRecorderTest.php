@@ -6,8 +6,8 @@ namespace Http\Client\Plugin\Vcr\Tests\Recorder;
 
 use GuzzleHttp\Psr7\Response;
 use Http\Client\Plugin\Vcr\Recorder\FilesystemRecorder;
+use Http\Client\Plugin\Vcr\Tests\Stub\TestLogger;
 use PHPUnit\Framework\TestCase;
-use Psr\Log\Test\TestLogger;
 use Symfony\Component\Filesystem\Filesystem;
 
 /**
