@@ -41,6 +41,7 @@ $replay = new ReplayPlugin($namingStrategy, $recorder);
 
 ``` bash
 $ composer test
+$ composer test-static
 ```
 
 

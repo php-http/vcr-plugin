@@ -1,8 +1,12 @@
 name: tests
 
 on:
-    push:
     pull_request:
+    push:
+        branches:
+            - '[0-9]+.x'
+            - '[0-9]+.[0-9]+'
+            - '[0-9]+.[0-9]+.x'
 
 jobs:
     latest:
@@ -48,8 +52,8 @@ jobs:
             - name: Execute tests
               run: composer test
 
-    coverage:
-        name: Code coverage and static analysis
+    static:
+        name: Static analysis
         runs-on: ubuntu-latest
 
         steps:
@@ -59,16 +63,11 @@ jobs:
             - name: Setup PHP
               uses: shivammathur/setup-php@v2
               with:
-                  php-version: 8.0
-                  coverage: xdebug
+                  php-version: 8.2
+                  coverage: none
 
             - name: Install dependencies
               run: composer update --prefer-dist --no-interaction --no-progress
 
             - name: Execute tests
-              run: composer test-ci
-
-            - name: Upload coverage
-              run: |
-                  wget https://scrutinizer-ci.com/ocular.phar
-                  php ocular.phar code-coverage:upload --format=php-clover build/coverage.xml
+              run: composer test-static
