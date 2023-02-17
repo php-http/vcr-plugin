@@ -1,5 +1,9 @@
 # Change Log
 
+## 1.2.2 - 2023-02-17
+
+- Allow installation with Psr\Log 2 and 3.
+
 ## 1.2.1 - 2022-01-12
 
 - Support Symfony 6
