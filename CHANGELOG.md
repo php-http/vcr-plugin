@@ -1,6 +1,6 @@
 # Change Log
 
-## 1.2.3 -
+## 1.2.3 - 2024-01-04
 
 - Support Symfony 7
 
