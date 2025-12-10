@@ -1,6 +1,6 @@
 # Change Log
 
-## 1.2.4
+## 1.2.4 - 2025-12-10
 
 - Support Symfony 8
 - Test with PHP 8.5
